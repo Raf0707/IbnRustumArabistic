@@ -1,0 +1,224 @@
+[
+    {
+        "singular_ar": "أَسَدٌ",
+        "plural_ar": "أُسُودٌ ",
+        "singular_ru": "Лев",
+        "plural_ru": "Львы"
+    },
+    {
+        "singular_ar": "لَبُؤَةٌ",
+        "plural_ar": "لَبُؤَاتٌ",
+        "singular_ru": "Львица",
+        "plural_ru": "Львицы"
+    },
+    {
+        "singular_ar": "بَطَّةٌ",
+        "plural_ar": "بَطَّاتٌ",
+        "singular_ru": "Утка",
+        "plural_ru": "Утки"
+    },
+    {
+        "singular_ar": "تُفَّاحَةٌ",
+        "plural_ar": "تُفَّاحٌ",
+        "singular_ru": "Яблоко",
+        "plural_ru": "Яблоки"
+    },
+    {
+        "singular_ar": "ثَعْلَبٌ",
+        "plural_ar": "ثَعَالِبُ",
+        "singular_ru": "Лиса",
+        "plural_ru": "Лисы"
+    },
+    {
+        "singular_ar": "جَمَلٌ",
+        "plural_ar": "جِمَالٌ",
+        "singular_ru": "Верблюд",
+        "plural_ru": "Верблюды"
+    },
+    {
+        "singular_ar": "نَاقَةٌ",
+        "plural_ar": "نَاقَاتٌ , نُقٌ , نِيَاقٌ",
+        "singular_ru": "Верблюдица",
+        "plural_ru": "Верблюдицы"
+    },
+    {
+        "singular_ar": "حِصَانٌ",
+        "plural_ar": "حُصُنٌ",
+        "singular_ru": "Конь (Жеребец)",
+        "plural_ru": "Кони (Жеребцы)"
+    },
+    {
+        "singular_ar": "خَرُوفٌ",
+        "plural_ar": "خِرْفَانٌ , خِرَافٌ",
+        "singular_ru": "Ягнёнок",
+        "plural_ru": "Ягнята"
+    },
+    {
+        "singular_ar": "دِيكٌ",
+        "plural_ar": "دُيُوكٌ",
+        "singular_ru": "Петух",
+        "plural_ru": "Петухи"
+    },
+    {
+        "singular_ar": "دَجَاجَةٌ",
+        "plural_ar": "دَجَاجَاتٌ",
+        "singular_ru": "Курица",
+        "plural_ru": "Курицы"
+    },
+    {
+        "singular_ar": "ذِئْبٌ",
+        "plural_ar": "ذِئَابٌ",
+        "singular_ru": "Волк",
+        "plural_ru": "Волки"
+    },
+    {
+        "singular_ar": "ذِئْبَةٌ",
+        "plural_ar": "ذِئْبَاتٌ",
+        "singular_ru": "Волчица",
+        "plural_ru": "Волчицы"
+    },
+    {
+        "singular_ar": "رَجُلٌ",
+        "plural_ar": "رِجَالٌ",
+        "singular_ru": "Мужчина",
+        "plural_ru": "Мужчины"
+    },
+    {
+        "singular_ar": "إِنْسَانَةٌ ,مَرْأَةٌ",
+        "plural_ar": "نِسَاءٌ , نِسْوَةٌ",
+        "singular_ru": "Женщина",
+        "plural_ru": "Женщины"
+    },
+    {
+        "singular_ar": "زَهْرَةٌ",
+        "plural_ar": "زَهَرَاتٌ , أَزَاهِرُ",
+        "singular_ru": "Цветок",
+        "plural_ru": "Цветы"
+    },
+    {
+        "singular_ar": "سَمَكَةٌ",
+        "plural_ar": "سَمَكَاتٌ",
+        "singular_ru": "Раба",
+        "plural_ru": "Рыбы"
+    },
+    {
+        "singular_ar": "شَجَرَةٌ",
+        "plural_ar": "شَجَرَاتٌ , أَشْجَارٌ",
+        "singular_ru": "Дерево",
+        "plural_ru": "Деревья"
+    },
+    {
+        "singular_ar": "سَارُوخٌ",
+        "plural_ar": "سَوَارِيخُ",
+        "singular_ru": "Ракета",
+        "plural_ru": "Ракеты"
+    },
+    {
+        "singular_ar": "ضِفْدِعٌ , ضَفْدَعٌ , ضُفْدَعٌ",
+        "plural_ar": "ضَفَادَعُ",
+        "singular_ru": "Лягушка",
+        "plural_ru": "Лягушки"
+    },
+    {
+        "singular_ar": "طَبِيبٌ",
+        "plural_ar": "أَطِبَّاءُ",
+        "singular_ru": "Врач",
+        "plural_ru": "Врачи"
+    },
+    {
+        "singular_ar": "طَبِيبَةٌ",
+        "plural_ar": "طَبِيبَاتٌ",
+        "singular_ru": "Врач (Женщина)",
+        "plural_ru": "Врачи (Женщины))"
+    },
+    {
+        "singular_ar": "ظَرْفٌ",
+        "plural_ar": "ظُرُوفٌ",
+        "singular_ru": "Конверт",
+        "plural_ru": "Конверты"
+    },
+    {
+        "singular_ar": "عَنَاكِبُ , عَنْكَبُوتٌ",
+        "plural_ar": "عَنْكَبُوتَاتٌ",
+        "singular_ru": "Паук",
+        "plural_ru": "Пауки"
+    },
+    {
+        "singular_ar": "غُرَابٌ",
+        "plural_ar": "غِرْبَانٌ",
+        "singular_ru": "Ворон (м. р.)",
+        "plural_ru": "Вороны (м. р.)"
+    },
+    {
+        "singular_ar": "غُرَابَةٌ",
+        "plural_ar": "غُرَابَاتٌ",
+        "singular_ru": "Ворона (ж. р.)",
+        "plural_ru": "Вороны (ж. р.)"
+    },
+    {
+        "singular_ar": "فَرَاشَةٌ",
+        "plural_ar": "فَرَاشَاتٌ",
+        "singular_ru": "Бабочка",
+        "plural_ru": "Бабочки"
+    },
+    {
+        "singular_ar": "قَلْبٌ",
+        "plural_ar": "قُلُوبٌ",
+        "singular_ru": "Сердце",
+        "plural_ru": "Сердца"
+    },
+    {
+        "singular_ar": "كَلْبٌ",
+        "plural_ar": "كِلاَبٌ",
+        "singular_ru": "Собака",
+        "plural_ru": "Собаки"
+    },
+    {
+        "singular_ar": "لُعْبَةٌ",
+        "plural_ar": "لَعَبَاتٌ",
+        "singular_ru": "Игрушка",
+        "plural_ru": "Игрушки"
+    },
+    {
+        "singular_ar": "مَسْجِدٌ",
+        "plural_ar": "مَسَاجِدُ",
+        "singular_ru": "Мечеть",
+        "plural_ru": "Мечети"
+    },
+    {
+        "singular_ar": "نَحْلَةٌ",
+        "plural_ar": " نَحْل , نَحَلاَتٌ",
+        "singular_ru": "Пчела",
+        "plural_ru": "Пчелы"
+    },
+    {
+        "singular_ar": "دَبُّورٌ",
+        "plural_ar": "دَبَابِيرُ",
+        "singular_ru": "Шершень",
+        "plural_ru": "Шершни"
+    },
+    {
+        "singular_ar": "هَاتِفٌ",
+        "plural_ar": "هَوَاتِفُ",
+        "singular_ru": "Телефон",
+        "plural_ru": "Телефоны"
+    },
+    {
+        "singular_ar": "وَرْدَةٌ",
+        "plural_ar": "وَرْدَاتٌ",
+        "singular_ru": "Роза",
+        "plural_ru": "Розы"
+    },
+    {
+        "singular_ar": "يَدٌ",
+        "plural_ar": "أَيْدٍ , أَيَادٍ",
+        "singular_ru": "Рука",
+        "plural_ru": "Руки"
+    },
+    {
+        "singular_ar": "",
+        "plural_ar": "",
+        "singular_ru": "",
+        "plural_ru": ""
+    }
+]

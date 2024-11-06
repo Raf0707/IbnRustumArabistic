@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/words"
+        android:icon="@drawable/list_words"
+        android:title="Слова" />
+
+    <!--item
+        android:id="@+id/cards"
+        android:icon="@drawable/words_cards"
+        android:title="Карточки" /-->
+
+    <item
+        android:id="@+id/counter"
+        android:icon="@drawable/baseline_task_black"
+        android:title="Счетчик" />
+
+    <item
+        android:id="@+id/aboutApp"
+        android:icon="@drawable/ic_vector_info"
+        android:title="О приложении" />
+
+</menu>
