@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_booksFragment_to_lessonsFragment"
             app:destination="@id/lessonsFragment" />
+        <action
+            android:id="@+id/action_booksFragment_to_mainSwipeFragment"
+            app:destination="@id/main_swipe_nav_graph" />
+        <action
+            android:id="@+id/action_booksFragment_to_appAboutFragment2"
+            app:destination="@id/appAboutFragment" />
     </fragment>
 
     <fragment
@@ -35,6 +41,83 @@
             android:name="fileName"
             app:argType="string"
             android:defaultValue="default.json" />
+        <action
+            android:id="@+id/action_wordListFragment_to_searchWordFragment"
+            app:destination="@id/searchWordFragment" />
+        <action
+            android:id="@+id/action_wordListFragment_to_gestureCounterFragment"
+            app:destination="@id/gestureCounterFragment" />
+        <action
+            android:id="@+id/action_wordListFragment_to_mainSwipeFragment"
+            app:destination="@id/main_swipe_nav_graph" >
+            <argument
+                android:name="wordAndTranslation"
+                app:argType="string" />
+            <argument
+                android:name="value"
+                app:argType="integer" />
+        </action>
+
     </fragment>
+    <fragment
+        android:id="@+id/searchWordFragment"
+        android:name="ibn.rustum.arabistic.ui.words.search_word.SearchWordFragment"
+        android:label="fragment_search_word"
+        tools:layout="@layout/fragment_search_word">
+        <argument
+            android:name="searchWord"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/gestureCounterFragment"
+        android:name="ibn.rustum.arabistic.ui.counter.fragment.GestureCounterFragment"
+        android:label="fragment_gesture_counter"
+        tools:layout="@layout/fragment_gesture_counter" >
+        <action
+            android:id="@+id/action_gestureCounterFragment_to_mainSwipeFragment"
+            app:destination="@id/main_swipe_nav_graph" />
+        <action
+            android:id="@+id/action_gestureCounterFragment_to_tutorialFragment"
+            app:destination="@id/tutorialFragment" />
+        <action
+            android:id="@+id/action_gestureCounterFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment2" />
+        <action
+            android:id="@+id/action_gestureCounterFragment_to_lessonsFragment"
+            app:destination="@id/lessonsFragment" />
+        <action
+            android:id="@+id/action_gestureCounterFragment_to_wordListFragment"
+            app:destination="@id/wordListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/main_swipe_nav_graph"
+        android:name="ibn.rustum.arabistic.ui.counter.main.MainSwipeFragment"
+        android:label="fragment_main_swipe"
+        tools:layout="@layout/fragment_main_swipe" >
+        <action
+            android:id="@+id/action_mainSwipeFragment_to_gestureCounterFragment"
+            app:destination="@id/gestureCounterFragment" />
+        <action
+            android:id="@+id/action_mainSwipeFragment_to_lessonsFragment"
+            app:destination="@id/lessonsFragment" />
+        <action
+            android:id="@+id/action_mainSwipeFragment_to_booksFragment"
+            app:destination="@id/booksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment2"
+        android:name="ibn.rustum.arabistic.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/tutorialFragment"
+        android:name="ibn.rustum.arabistic.ui.settings.TutorialFragment"
+        android:label="fragment_tutorial"
+        tools:layout="@layout/fragment_tutorial" />
+    <fragment
+        android:id="@+id/appAboutFragment"
+        android:name="ibn.rustum.arabistic.ui.about_app.AppAboutFragment"
+        android:label="fragment_app_about"
+        tools:layout="@layout/fragment_app_about" />
 
 </navigation>

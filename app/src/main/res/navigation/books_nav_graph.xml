@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/books_nav_graph"
+    app:startDestination="@id/lessonsFragment">
+
+    <fragment
+        android:id="@+id/lessonsFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.LessonsFragment"
+        android:label="Lessons Fragment"
+        tools:layout="@layout/fragment_lessons">
+        <action
+            android:id="@+id/action_lessonsFragment_to_wordListFragment"
+            app:destination="@id/wordListFragment">
+            <argument
+                android:name="fileName"
+                app:argType="string"
+                android:defaultValue="default.json" />
+        </action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/wordListFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.WordListFragment"
+        android:label="Word List Fragment"
+        tools:layout="@layout/fragment_word_list">
+        <!-- добавьте нужные аргументы и действия -->
+    </fragment>
+
+</navigation>

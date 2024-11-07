@@ -1,13 +1,18 @@
 package ibn.rustum.arabistic
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.Window
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.navigateUp
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import ibn.rustum.arabistic.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +21,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var appBarConfiguration: AppBarConfiguration
 
+    // NavController для каждой вкладки
+    lateinit var booksNavController: NavController
+    lateinit var mainSwipeNavController: NavController
+    lateinit var appAboutNavController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,42 +33,72 @@ class MainActivity : AppCompatActivity() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
 
-        navController = findNavController(this, R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
-        //setupWithNavController(binding.bottomAppBar, navController)
-        //setupWithNavController(binding.toolbar, navController, appBarConfiguration)
 
+        // Инициализируем NavController
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main)
+
+        // Инициализация AppBarConfiguration для toolbar (если он есть)
+        appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
+
+        setupWithNavController(binding.navView, navController)
+        setupWithNavController(Toolbar(baseContext), navController, appBarConfiguration)
+
+        // Настройка NavController с BottomNavigationView
+        val bottomNav = binding.navView
+        bottomNav.setupWithNavController(navController)
+
+
+        // Настройка NavController для основной навигации
+        /*booksNavController = findNavController(R.id.books_nav_host)
+        mainSwipeNavController = findNavController(R.id.mainSwipe_nav_host)
+        appAboutNavController = findNavController(R.id.app_about_nav_host)
+
+        // Настройка навигации для BottomNavigation
+        binding.navView.setupWithNavController(booksNavController)
+
+        binding.navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_books -> {
+                    booksNavController.navigate(R.id.booksFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_main -> {
+                    mainSwipeNavController.navigate(R.id.main_swipe_nav_graph)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.app_about -> {
+                    appAboutNavController.navigate(R.id.appAboutFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
+            }
+        }*/
+
+        // Если фрагмент не сохранен, делаем начальный переход
         if (savedInstanceState == null) {
-            // Переход к BookFragment
             navController.navigate(R.id.booksFragment)
         }
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.top_app_bar_menu, menu)
-        return true
+    // Обработчик нажатий на кнопку "назад"
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main)
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        if (id == R.id.settings) {
-            val navController = findNavController(this, R.id.nav_host_fragment_content_main)
-            val currentDestination = navController.currentDestination
-            if (currentDestination != null && currentDestination.id == R.id.settingsFragment) {
-                return true
-            }
-            navController.navigate<Any>(R.id.settingsFragment2)
+        /*//if (id == R.id.settings) {
+        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+        val currentDestination = navController.currentDestination
+        if (currentDestination != null && currentDestination.id == R.id.settingsFragment) {
             return true
         }
+        navController.navigate<Any>(R.id.settingsFragment2)
+        //return true
+        //}*/
 
         return super.onOptionsItemSelected(item)
-    }*/
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
-        return navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp()
     }
 }

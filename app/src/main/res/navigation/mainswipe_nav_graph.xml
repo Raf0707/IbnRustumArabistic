@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainSwipe_nav_graph"
+    app:startDestination="@id/main_swipe_nav_graph">
+
+    <fragment
+        android:id="@+id/main_swipe_nav_graph"
+        android:name="ibn.rustum.arabistic.ui.counter.main.MainSwipeFragment"
+        android:label="Main Swipe Fragment"
+        tools:layout="@layout/fragment_main_swipe">
+        <action
+            android:id="@+id/action_mainSwipeFragment_to_gestureCounterFragment"
+            app:destination="@id/gestureCounterFragment" />
+        <action
+            android:id="@+id/action_mainSwipeFragment_to_gestureCounterFragment2"
+            app:destination="@id/gestureCounterFragment2" />
+        <!-- другие действия для переходов внутри mainSwipe -->
+    </fragment>
+    <fragment
+        android:id="@+id/gestureCounterFragment2"
+        android:name="ibn.rustum.arabistic.ui.counter.fragment.GestureCounterFragment"
+        android:label="fragment_gesture_counter"
+        tools:layout="@layout/fragment_gesture_counter" >
+        <action
+            android:id="@+id/action_gestureCounterFragment2_to_mainSwipeFragment"
+            app:destination="@id/main_swipe_nav_graph" />
+    </fragment>
+
+</navigation>

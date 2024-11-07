@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_about_nav_graph"
+    app:startDestination="@id/settingsFragment2">
+
+    <fragment
+        android:id="@+id/settingsFragment2"
+        android:name="ibn.rustum.arabistic.ui.settings.SettingsFragment"
+        android:label="Settings Fragment"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/tutorialFragment"
+        android:name="ibn.rustum.arabistic.ui.settings.TutorialFragment"
+        android:label="Tutorial Fragment"
+        tools:layout="@layout/fragment_tutorial" />
+    <fragment
+        android:id="@+id/appAboutFragment3"
+        android:name="ibn.rustum.arabistic.ui.about_app.AppAboutFragment"
+        android:label="fragment_app_about"
+        tools:layout="@layout/fragment_app_about" />
+</navigation>
