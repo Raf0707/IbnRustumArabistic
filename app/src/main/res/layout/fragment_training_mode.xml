@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.words.arabic_for_russian.cards.training.TrainingModeFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardWord"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        android:layout_gravity="center"
+        android:onClick="onCardClick">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:padding="80dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Word" />
+
+            <TextView
+                android:id="@+id/answerWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:text="Russian Translation" />
+
+        </LinearLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/showAnswerSwitch"
+            style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="Показать ответ"
+            android:textSize="18sp"/>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/lessonsFragment"
-        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.LessonsFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.lessons.LessonsFragment"
         android:label="Lessons Fragment"
         tools:layout="@layout/fragment_lessons">
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/wordListFragment"
-        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.WordListFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.wordlist.WordListFragment"
         android:label="Word List Fragment"
         tools:layout="@layout/fragment_word_list">
         <!-- добавьте нужные аргументы и действия -->

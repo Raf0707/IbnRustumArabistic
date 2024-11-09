@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/lessonsFragment"
-        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.LessonsFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.lessons.LessonsFragment"
         android:label="fragment_lessons"
         tools:layout="@layout/fragment_lessons" >
         <action
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/wordListFragment"
-        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.WordListFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.wordlist.WordListFragment"
         android:label="fragment_word_list"
         tools:layout="@layout/fragment_word_list" >
         <!-- Определяем аргумент для wordListFragment -->
@@ -56,6 +56,16 @@
             <argument
                 android:name="value"
                 app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_wordListFragment_to_cardModeFragment"
+            app:destination="@id/cardModeFragment">
+            <argument
+                android:name="setOfArabicWords"
+                app:argType="string[]" />
+            <argument
+                android:name="setOfTranslateWords"
+                app:argType="string[]" />
         </action>
 
     </fragment>
@@ -119,5 +129,51 @@
         android:name="ibn.rustum.arabistic.ui.about_app.AppAboutFragment"
         android:label="fragment_app_about"
         tools:layout="@layout/fragment_app_about" />
+    <fragment
+        android:id="@+id/cardModeFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.cards.CardModeFragment"
+        android:label="fragment_card_mode"
+        tools:layout="@layout/fragment_card_mode">
+        <!-- Переход к TrainingModeFragment -->
+        <action
+            android:id="@+id/action_cardModeFragment_to_trainingModeFragment"
+            app:destination="@id/trainingModeFragment" />
+
+        <!-- Переход к TestModeFragment -->
+        <action
+            android:id="@+id/action_cardModeFragment_to_testModeFragment"
+            app:destination="@id/testModeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/testModeFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.cards.test.TestModeFragment"
+        android:label="fragment_test_mode"
+        tools:layout="@layout/fragment_test_mode">
+        <argument
+            android:name="checkedArabicWords"
+            app:argType="string[]" />
+        <argument
+            android:name="checkedRussianWords"
+            app:argType="string[]" />
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingModeFragment"
+        android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.cards.training.TrainingModeFragment"
+        android:label="fragment_training_mode"
+        tools:layout="@layout/fragment_training_mode">
+        <argument
+            android:name="checkedArabicWords"
+            app:argType="string[]" />
+        <argument
+            android:name="checkedRussianWords"
+            app:argType="string[]" />
+        <argument
+            android:name="mode"
+            app:argType="string" />
+    </fragment>
+
 
 </navigation>

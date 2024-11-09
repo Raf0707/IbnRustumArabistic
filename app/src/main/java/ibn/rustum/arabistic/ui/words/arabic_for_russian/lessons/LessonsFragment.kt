@@ -1,4 +1,4 @@
-package ibn.rustum.arabistic.ui.words.arabic_for_russian
+package ibn.rustum.arabistic.ui.words.arabic_for_russian.lessons
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.card.MaterialCardView
-import ibn.rustum.arabistic.R
 
 class LessonsFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package ibn.rustum.arabistic.ui.words.arabic_for_russian
+package ibn.rustum.arabistic.ui.words.arabic_for_russian.wordlist
 
 
 import android.app.Dialog
@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ibn.rustum.arabistic.R
@@ -145,14 +144,14 @@ class WordListFragment : Fragment() {
                 Log.d("WordListFragment", "http://arabus.ru/search/$arabicWord")
 
                 findNavController().navigate(action)*/
-                v -> (
+                    v -> (
                     CustomTabUtil()
                         .openCustomTab(
                             activity,
                             "http://arabus.ru/search/$arabicWord",
                             R.color.purple_300
                         )
-                )
+                    )
                 true
             }
 
@@ -325,6 +324,46 @@ class WordListFragment : Fragment() {
                     FrameLayout.LayoutParams.MATCH_PARENT
                 )
             })
+
+            setOnClickListener {
+                // Initialize the sets
+                val setOfArabicWords: MutableSet<String> = mutableSetOf()
+                val setOfTranslateWords: MutableSet<String> = mutableSetOf()
+
+                // Get the lesson number from arguments
+                val lessonNumber = arguments?.getInt("lesson_number") ?: 1
+
+                lifecycleScope.launch {
+                    // Load JSON data for the given lesson number
+                    val jsonData = loadJsonDataAsync(lessonNumber + 1)
+                    if (jsonData != null) {
+                        jsonData.forEach { item ->
+                            // Populate the sets with Arabic and translation words
+                            setOfArabicWords.add(item.singular_ar)
+                            setOfArabicWords.add(item.plural_ar)
+                            setOfTranslateWords.add(item.singular_ru)
+                            setOfTranslateWords.add(item.plural_ru)
+                        }
+
+                        // Convert sets to arrays for navigation arguments
+                        val arabicWordsArray = setOfArabicWords.toTypedArray()
+                        val translateWordsArray = setOfTranslateWords.toTypedArray()
+
+                        // Use SafeArgs to navigate and pass the arrays
+                        val directions = WordListFragmentDirections
+                            .actionWordListFragmentToCardModeFragment(
+                                setOfArabicWords = arabicWordsArray,
+                                setOfTranslateWords = translateWordsArray
+                            )
+
+                        findNavController().navigate(directions)
+                    } else {
+                        Log.e("WordListFragment", "Failed to load data for lesson $lessonNumber")
+                    }
+                }
+            }
+
+
         }
     }
 

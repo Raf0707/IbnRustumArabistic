@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Text Views for Arabic and Russian Words -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Arabic Word -->
+            <TextView
+                android:id="@+id/text_arabic_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold"
+                android:text="Arabic Word" />
+
+            <!-- Russian Translation -->
+            <TextView
+                android:id="@+id/text_russian_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:text="Russian Translation" />
+        </LinearLayout>
+
+        <!-- Circular Checkbox for Selecting the Card -->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_select"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:useMaterialThemeColors="true"
+            android:layout_marginEnd="16dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
