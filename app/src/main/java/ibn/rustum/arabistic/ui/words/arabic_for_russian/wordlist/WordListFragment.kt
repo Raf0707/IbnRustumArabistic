@@ -35,12 +35,16 @@ class WordListFragment : Fragment() {
 
     private var overlay: FrameLayout? = null
 
+    lateinit var lessonNumPublic: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val context = requireContext()
         val lessonNumber = arguments?.getInt("lesson_number") ?: 1
+        lessonNumPublic = lessonNumber.toString()
+        Log.d("PUBLIC LESSON", lessonNumPublic)
         val linearLayout = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(
@@ -194,11 +198,11 @@ class WordListFragment : Fragment() {
 
 
     private suspend fun loadJsonDataAsync(lessonNumber: Int): List<Word>? {
-        val fileName = "arabic_for_russian/${String.format("%02d.json", lessonNumber)}"
+        val fileName = "arabic_for_russian/wordlist/${String.format("%02d.json", lessonNumber)}"
         return withContext(Dispatchers.IO) {
             try {
                 val assetManager = requireContext().assets
-                val files = assetManager.list("arabic_for_russian") ?: emptyArray()
+                val files = assetManager.list("arabic_for_russian/wordlist") ?: emptyArray()
                 if (!files.contains(String.format("%02d.json", lessonNumber))) {
                     Log.e("WordListFragment", "File $fileName not found in assets.")
                     return@withContext null
@@ -346,19 +350,20 @@ class WordListFragment : Fragment() {
                         }
 
                         // Convert sets to arrays for navigation arguments
-                        val arabicWordsArray = setOfArabicWords.toTypedArray()
-                        val translateWordsArray = setOfTranslateWords.toTypedArray()
+                        //val arabicWordsArray = setOfArabicWords.toTypedArray()
+                        //val translateWordsArray = setOfTranslateWords.toTypedArray()
 
                         // Use SafeArgs to navigate and pass the arrays
                         val directions = WordListFragmentDirections
                             .actionWordListFragmentToCardModeFragment(
-                                setOfArabicWords = arabicWordsArray,
-                                setOfTranslateWords = translateWordsArray
+                                arabicWords = "arabic_for_russian/cards/${String.format("%02d.json", lessonNumber + 1)}"
                             )
+
+                        Log.d("FILENAME", "arabic_for_russian/cards/${String.format("%02d.json", lessonNumber + 1)}")
 
                         findNavController().navigate(directions)
                     } else {
-                        Log.e("WordListFragment", "Failed to load data for lesson $lessonNumber")
+                        Log.e("WordListFragment", "Failed to load data for lesson ${lessonNumber + 1}")
                     }
                 }
             }

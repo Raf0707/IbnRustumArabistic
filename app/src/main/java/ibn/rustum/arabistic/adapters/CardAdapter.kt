@@ -7,7 +7,7 @@ import ibn.rustum.arabistic.databinding.WordLinearItemBinding
 
 class CardAdapter(
     private val items: List<Pair<String, String>>,
-    private val onCardSelected: (String, String, Boolean) -> Unit
+    //private val onCardSelected: (String, String, Boolean) -> Unit
 ) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     private val selectedItems = mutableSetOf<Int>()
@@ -27,10 +27,10 @@ class CardAdapter(
             textRussianWord.text = translatedWord
 
             checkboxSelect.isChecked = selectedItems.contains(position)
-            checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
+            /*checkboxSelect.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) selectedItems.add(position) else selectedItems.remove(position)
                 onCardSelected(arabicWord, translatedWord, isChecked)
-            }
+            }*/
         }
     }
 

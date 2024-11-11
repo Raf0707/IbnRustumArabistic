@@ -101,7 +101,7 @@ class LessonsFragment : Fragment() {
             val fileName = String.format("lesson_%02d.json", index + 1)
 
             // Логируем имя файла, которое мы отправляем
-            Log.d("LessonsFragment", "Sending file: $fileName to WordListFragment")
+            Log.d("FILENAME", "$fileName")
 
             // Переход к WordListFragment с передачей имени файла
             val action = LessonsFragmentDirections.actionLessonsFragmentToWordListFragment(fileName)

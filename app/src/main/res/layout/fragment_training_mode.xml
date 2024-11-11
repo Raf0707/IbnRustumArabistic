@@ -31,7 +31,7 @@
                 android:padding="80dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="Word" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/answerWord"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
                 android:gravity="center"
-                android:text="Russian Translation" />
+                android:text="" />
 
         </LinearLayout>
 

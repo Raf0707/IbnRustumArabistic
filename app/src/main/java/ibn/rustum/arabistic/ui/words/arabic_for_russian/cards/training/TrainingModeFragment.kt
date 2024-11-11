@@ -10,6 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import ibn.rustum.arabistic.R
 import ibn.rustum.arabistic.databinding.FragmentTrainingModeBinding
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.File
+import java.io.IOException
 import java.util.LinkedList
 import java.util.Queue
 import kotlin.random.Random
@@ -31,31 +36,74 @@ class TrainingModeFragment : Fragment() {
     ): View? {
         binding = FragmentTrainingModeBinding.inflate(inflater, container, false)
 
-        arguments?.let {
-            checkedArabicWords.addAll(it.getStringArray("checkedArabicWords")?.toList() ?: emptyList())
-            checkedRussianWords.addAll(it.getStringArray("checkedRussianWords")?.toList() ?: emptyList())
-            trainingMode = it.getString("trainingMode")
-        }
+        val jsonFilePath = arguments?.getString("jsonFilePath")
+        trainingMode = arguments?.getString("trainingMode") // Получаем режим
 
-        Log.d("checkedArabicWords", checkedArabicWords.forEach{ println(it) }.toString())
-        Log.d("checkedRussianWords", checkedRussianWords.forEach{ println(it) }.toString())
+        jsonFilePath?.let {
+            try {
+                val jsonData = context?.assets?.open(it)?.bufferedReader().use { reader -> reader?.readText() }
+                jsonData?.let { data ->
+                    val jsonArray = JSONArray(data) // Используем JSONArray вместо JSONObject
 
-        binding.showAnswerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            // Если переключатель включен, показываем ответ
-            if (isChecked) {
-                binding.answerWord.visibility = View.VISIBLE
-                val answer = when (trainingMode) {
-                    "Ar-Ru" -> currentWord?.second
-                    "Ru-Ar" -> currentWord?.first
-                    "Merge" -> if (binding.textWord.text == currentWord?.first) currentWord?.second else currentWord?.first
-                    else -> currentWord?.second
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+
+                        // Получаем слова на арабском и русском из каждого объекта в массиве
+                        val arabicWord = jsonObject.getString("ar")
+                        val russianWord = jsonObject.getString("ru")
+
+                        checkedArabicWords.add(arabicWord)
+                        checkedRussianWords.add(russianWord)
+                    }
+
+                    Log.d("checkedArabicWords", checkedArabicWords.toString())
+                    Log.d("checkedRussianWords", checkedRussianWords.toString())
+
+                    // Используем переменную mode для настройки отображения или других действий
+                    Log.d("TrainingMode", "Current mode: $trainingMode")
+                    // Здесь можно добавить логику в зависимости от значения `mode`, если это требуется
                 }
-                binding.answerWord.text = answer
-            } else {
-                // Если переключатель выключен, скрываем ответ
-                binding.answerWord.visibility = View.INVISIBLE
+            } catch (e: IOException) {
+                Log.e("TrainingModeFragment", "Error loading JSON from assets: ${e.message}")
+            } catch (e: JSONException) {
+                Log.e("TrainingModeFragment", "Error parsing JSON: ${e.message}")
             }
         }
+
+
+        // Получаем текущее слово из textWord
+        val currentText = binding.textWord.text.toString()
+
+// Находим индекс текущего слова в списке checkedArabicWords
+        val currentItemIndex = checkedArabicWords.indexOf(currentText)
+
+// Проверяем, что индекс найден (не равен -1)
+        if (currentItemIndex != -1) {
+            val currentArabicWord = checkedArabicWords[currentItemIndex]
+            val currentRussianWord = checkedRussianWords[currentItemIndex]
+
+            binding.showAnswerSwitch.setOnCheckedChangeListener { _, isChecked ->
+                // Если переключатель включен, показываем ответ
+                if (isChecked) {
+                    binding.answerWord.visibility = View.VISIBLE
+                    val answer = when (trainingMode) {
+                        "Ar-Ru" -> currentArabicWord // если режим тренировки "Ar-Ru", показываем слово на русском
+                        "Ru-Ar" -> currentRussianWord // если режим тренировки "Ru-Ar", показываем слово на арабском
+                        "Merge" -> if (binding.textWord.text == currentArabicWord) currentRussianWord else currentArabicWord // если текст совпадает с арабским словом, показываем русское, и наоборот
+                        else -> currentRussianWord // по умолчанию показываем слово на русском
+                    }
+                    binding.answerWord.text = answer
+                } else {
+                    // Если переключатель выключен, скрываем ответ
+                    binding.answerWord.visibility = View.INVISIBLE
+                }
+            }
+        } else {
+            Log.e("TrainingModeFragment", "Текущий текст не найден в списке checkedArabicWords: $currentText")
+            // Здесь можно добавить альтернативное действие, если слово не найдено
+        }
+
+
 
         initWordsQueue()
         displayNextWord()
@@ -80,6 +128,7 @@ class TrainingModeFragment : Fragment() {
         wordsQueue.addAll(wordsList.shuffled())
     }
 
+
     private fun displayNextWord() {
         // Выбираем следующее слово
         currentWord = getNextWord() ?: return
@@ -90,13 +139,29 @@ class TrainingModeFragment : Fragment() {
             "Ru-Ar" -> currentWord?.second
             "Merge" -> if (Random.nextBoolean()) currentWord?.first else currentWord?.second
             else -> currentWord?.first
-        } ?: "" // Если текущего слова нет, показываем пустую строку
+        } ?: ""
 
         binding.textWord.text = displayedWord
 
-        // Скрываем ответ, если переключатель выключен
-        binding.answerWord.visibility = View.INVISIBLE
+        // Если свитч включен, сразу показываем ответ для нового слова
+        if (binding.showAnswerSwitch.isChecked) {
+            showAnswer()
+        } else {
+            binding.answerWord.visibility = View.INVISIBLE
+        }
     }
+
+    private fun showAnswer() {
+        val answer = when (trainingMode) {
+            "Ar-Ru" -> currentWord?.second
+            "Ru-Ar" -> currentWord?.first
+            "Merge" -> if (binding.textWord.text == currentWord?.first) currentWord?.second else currentWord?.first
+            else -> ""
+        }
+        binding.answerWord.text = answer
+        binding.answerWord.visibility = View.VISIBLE
+    }
+
 
     // Функция получения следующего слова из очереди с учетом частоты повторений
     private fun getNextWord(): Pair<String, String>? {
@@ -117,6 +182,17 @@ class TrainingModeFragment : Fragment() {
             it?.let { usedWords.add(it) }
         }
     }
+
+    private suspend fun loadJsonDataAsync(lessonNumber: Int): String? {
+        return try {
+            val fileName = "arabic_for_russian/cards/${String.format("%02d.json", lessonNumber)}"
+            context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
+        } catch (e: IOException) {
+            Log.e("FileLoading", "Error loading JSON file: $e")
+            null
+        }
+    }
+
 
     private fun setupCardClick() {
         binding.cardWord.setOnClickListener {
@@ -167,16 +243,32 @@ class TrainingModeFragment : Fragment() {
     }
 
     private fun flipCard(answer: String?) {
-        // Анимация поворота карточки
-        binding.cardWord.animate().rotationY(90f).setDuration(150).withEndAction {
-            binding.textWord.text = answer
-            binding.cardWord.rotationY = -90f
-            binding.cardWord.animate().rotationY(0f).setDuration(150).start()
+        // Временно скрываем текст
+        binding.textWord.visibility = View.INVISIBLE
 
-            Handler(Looper.getMainLooper()).postDelayed({
+        // Анимация поворота карточки
+        binding.cardWord
+            .animate()
+            .scaleX(0.8f)
+            .scaleY(0.8f)
+            .rotationY(90f)
+            .setDuration(150)
+            .withEndAction {
+
+            binding.textWord.visibility = View.VISIBLE
+            binding.cardWord.rotationY = -90f
+            binding.cardWord.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .rotationY(0f)
+                .setDuration(150)
+                .start()
+
+            /*Handler(Looper.getMainLooper()).postDelayed({
                 // Показать следующее слово
                 displayNextWord()
-            }, 100)
+            }, 150)*/
+                displayNextWord()
         }.start()
     }
 }

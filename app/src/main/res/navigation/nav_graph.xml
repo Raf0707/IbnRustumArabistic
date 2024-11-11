@@ -60,12 +60,15 @@
         <action
             android:id="@+id/action_wordListFragment_to_cardModeFragment"
             app:destination="@id/cardModeFragment">
-            <argument
+            <!--argument
                 android:name="setOfArabicWords"
                 app:argType="string[]" />
             <argument
                 android:name="setOfTranslateWords"
-                app:argType="string[]" />
+                app:argType="string[]" /-->
+            <argument
+                android:name="arabicWords"
+                app:argType="string" />
         </action>
 
     </fragment>
@@ -137,7 +140,12 @@
         <!-- Переход к TrainingModeFragment -->
         <action
             android:id="@+id/action_cardModeFragment_to_trainingModeFragment"
-            app:destination="@id/trainingModeFragment" />
+            app:destination="@id/trainingModeFragment">
+            <!--argument
+                android:name="mode"
+                app:argType="string" /-->
+
+        </action>
 
         <!-- Переход к TestModeFragment -->
         <action

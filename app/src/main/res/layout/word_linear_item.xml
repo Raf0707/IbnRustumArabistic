@@ -29,6 +29,8 @@
                 android:textSize="18sp"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:text="Arabic Word" />
 
             <!-- Russian Translation -->
@@ -37,6 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:text="Russian Translation" />
         </LinearLayout>
@@ -46,6 +50,7 @@
             android:id="@+id/checkbox_select"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:visibility="gone"
             app:useMaterialThemeColors="true"
             android:layout_marginEnd="16dp" />
 
