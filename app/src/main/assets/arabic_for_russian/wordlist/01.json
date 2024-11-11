@@ -37,7 +37,7 @@
     },
     {
         "singular_ar": "نَاقَةٌ",
-        "plural_ar": "نَاقَاتٌ , نُقٌ , نِيَاقٌ",
+        "plural_ar": "نَاقَاتٌ \n نُقٌ \n نِيَاقٌ",
         "singular_ru": "Верблюдица",
         "plural_ru": "Верблюдицы"
     },
@@ -49,7 +49,7 @@
     },
     {
         "singular_ar": "خَرُوفٌ",
-        "plural_ar": "خِرْفَانٌ , خِرَافٌ",
+        "plural_ar": "خِرْفَانٌ \n خِرَافٌ",
         "singular_ru": "Ягнёнок",
         "plural_ru": "Ягнята"
     },
@@ -84,26 +84,26 @@
         "plural_ru": "Мужчины"
     },
     {
-        "singular_ar": "إِنْسَانَةٌ ,مَرْأَةٌ",
-        "plural_ar": "نِسَاءٌ , نِسْوَةٌ",
+        "singular_ar": "إِنْسَانَةٌ \n مَرْأَةٌ",
+        "plural_ar": "نِسَاءٌ \n نِسْوَةٌ",
         "singular_ru": "Женщина",
         "plural_ru": "Женщины"
     },
     {
         "singular_ar": "زَهْرَةٌ",
-        "plural_ar": "زَهَرَاتٌ , أَزَاهِرُ",
+        "plural_ar": "زَهَرَاتٌ \n أَزَاهِرُ",
         "singular_ru": "Цветок",
         "plural_ru": "Цветы"
     },
     {
         "singular_ar": "سَمَكَةٌ",
         "plural_ar": "سَمَكَاتٌ",
-        "singular_ru": "Раба",
+        "singular_ru": "Рыба",
         "plural_ru": "Рыбы"
     },
     {
         "singular_ar": "شَجَرَةٌ",
-        "plural_ar": "شَجَرَاتٌ , أَشْجَارٌ",
+        "plural_ar": "شَجَرَاتٌ \n أَشْجَارٌ",
         "singular_ru": "Дерево",
         "plural_ru": "Деревья"
     },
@@ -114,7 +114,7 @@
         "plural_ru": "Ракеты"
     },
     {
-        "singular_ar": "ضِفْدِعٌ , ضَفْدَعٌ , ضُفْدَعٌ",
+        "singular_ar": "ضَفْدَعٌ",
         "plural_ar": "ضَفَادَعُ",
         "singular_ru": "Лягушка",
         "plural_ru": "Лягушки"
@@ -128,8 +128,8 @@
     {
         "singular_ar": "طَبِيبَةٌ",
         "plural_ar": "طَبِيبَاتٌ",
-        "singular_ru": "Врач (Женщина)",
-        "plural_ru": "Врачи (Женщины))"
+        "singular_ru": "Врач \n (Женщина)",
+        "plural_ru": "Врачи \n (Женщины)"
     },
     {
         "singular_ar": "ظَرْفٌ",
@@ -138,7 +138,7 @@
         "plural_ru": "Конверты"
     },
     {
-        "singular_ar": "عَنَاكِبُ , عَنْكَبُوتٌ",
+        "singular_ar": "عَنَاكِبُ \n عَنْكَبُوتٌ",
         "plural_ar": "عَنْكَبُوتَاتٌ",
         "singular_ru": "Паук",
         "plural_ru": "Пауки"
@@ -146,14 +146,14 @@
     {
         "singular_ar": "غُرَابٌ",
         "plural_ar": "غِرْبَانٌ",
-        "singular_ru": "Ворон (м. р.)",
-        "plural_ru": "Вороны (м. р.)"
+        "singular_ru": "Ворон \n (м. р.)",
+        "plural_ru": "Вороны \n (м. р.)"
     },
     {
         "singular_ar": "غُرَابَةٌ",
         "plural_ar": "غُرَابَاتٌ",
-        "singular_ru": "Ворона (ж. р.)",
-        "plural_ru": "Вороны (ж. р.)"
+        "singular_ru": "Ворона \n (ж. р.)",
+        "plural_ru": "Вороны \n (ж. р.)"
     },
     {
         "singular_ar": "فَرَاشَةٌ",
@@ -187,7 +187,7 @@
     },
     {
         "singular_ar": "نَحْلَةٌ",
-        "plural_ar": " نَحْل , نَحَلاَتٌ",
+        "plural_ar": " نَحْل \n نَحَلاَتٌ",
         "singular_ru": "Пчела",
         "plural_ru": "Пчелы"
     },
@@ -211,7 +211,7 @@
     },
     {
         "singular_ar": "يَدٌ",
-        "plural_ar": "أَيْدٍ , أَيَادٍ",
+        "plural_ar": "أَيْدٍ \n أَيَادٍ",
         "singular_ru": "Рука",
         "plural_ru": "Руки"
     }
