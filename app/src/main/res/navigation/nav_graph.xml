@@ -131,7 +131,11 @@
         android:id="@+id/appAboutFragment"
         android:name="ibn.rustum.arabistic.ui.about_app.AppAboutFragment"
         android:label="fragment_app_about"
-        tools:layout="@layout/fragment_app_about" />
+        tools:layout="@layout/fragment_app_about" >
+        <action
+            android:id="@+id/action_appAboutFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/cardModeFragment"
         android:name="ibn.rustum.arabistic.ui.words.arabic_for_russian.cards.CardModeFragment"

@@ -12,7 +12,7 @@ class App : Application() {
         setNightMode()
     }
 
-    private fun setNightMode() {
+    fun setNightMode() {
         // Чтение текущего значения ночного режима из SharedPreferences
         val nightMode = SharedPreferencesUtils.getInteger(this, "nightMode", 1)
 
@@ -20,7 +20,8 @@ class App : Application() {
         val modes = intArrayOf(
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,  // Использовать системные настройки
             AppCompatDelegate.MODE_NIGHT_NO,            // Режим светлой темы
-            AppCompatDelegate.MODE_NIGHT_YES           // Режим темной темы
+            AppCompatDelegate.MODE_NIGHT_YES,           // Режим темной темы
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
         )
 
         // Применяем выбранный режим
@@ -29,7 +30,7 @@ class App : Application() {
 
     companion object {
         // Экземпляр приложения (синглтон)
-        private var instance: App? = null
+        internal var instance: App? = null
 
         // Метод для получения экземпляра приложения
         fun getInstance(): App {

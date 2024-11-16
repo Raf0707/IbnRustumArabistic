@@ -3,17 +3,18 @@ package ibn.rustum.arabistic
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
+import android.window.SplashScreen
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ibn.rustum.arabistic.databinding.ActivityMainBinding
+import ibn.rustum.arabistic.util.SharedPreferencesUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        val nightIcon: Int =
+            SharedPreferencesUtils.getInteger(this, "nightIcon", R.drawable.vectornightpress)
+
+        App.instance?.setNightMode()
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
 

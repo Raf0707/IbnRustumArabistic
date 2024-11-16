@@ -1,5 +1,7 @@
 package ibn.rustum.arabistic.ui.words
 
+import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -33,7 +35,7 @@ class BooksFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            setBackgroundColor(Color.WHITE)
+            setBackgroundColor(getBackgroundColor(requireContext())) // Устанавливаем цвет фона в зависимости от темы
             gravity = Gravity.CENTER
         }
 
@@ -47,12 +49,10 @@ class BooksFragment : Fragment() {
         titles.forEach { title ->
             val cardView = createMaterialCardView(title, 24)
             // Устанавливаем onClickListener для конкретной карточки
-
             cardView.setOnClickListener {
-                when(title) {
+                when (title) {
                     "Арабский язык для говорящих по русски" -> findNavController().navigate(R.id.action_booksFragment_to_lessonsFragment)
                 }
-
             }
 
             rootLayout.addView(cardView)
@@ -63,6 +63,19 @@ class BooksFragment : Fragment() {
     }
 
     private fun createMaterialCardView(text: String, topMargin: Int): MaterialCardView {
+        val isDarkTheme = isDarkTheme(requireContext())
+        val cardBackgroundColor = if (isDarkTheme) {
+            R.color.md_theme_dark_surfaceVariant
+        } else {
+            R.color.md_theme_light_surfaceVariant
+        }
+
+        val textColor = if (isDarkTheme) {
+            R.color.md_theme_dark_onSurface
+        } else {
+            R.color.md_theme_light_onSurface
+        }
+
         val cardView = MaterialCardView(requireContext()).apply {
             layoutParams = ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -70,7 +83,7 @@ class BooksFragment : Fragment() {
             ).apply {
                 setMargins(24, topMargin, 24, 24)  // Верхний отступ зависит от аргумента topMargin
             }
-            setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+            setCardBackgroundColor(ContextCompat.getColor(requireContext(), cardBackgroundColor)) // Устанавливаем цвет карточки
             radius = 24f
             elevation = 12f
             setPadding(48, 48, 48, 48)  // Увеличенный padding внутри карточки
@@ -84,12 +97,23 @@ class BooksFragment : Fragment() {
             gravity = Gravity.CENTER  // Центрируем текст как по горизонтали, так и по вертикали
             this.text = text
             textSize = 24f  // Увеличенный размер текста
-            setTextColor(Color.BLACK)
+            setTextColor(ContextCompat.getColor(requireContext(), textColor)) // Устанавливаем цвет текста
         }
 
         cardView.addView(textView)
         return cardView
     }
 
+    private fun getBackgroundColor(context: Context): Int {
+        return if (isDarkTheme(context)) {
+            ContextCompat.getColor(context, R.color.md_theme_dark_background)
+        } else {
+            ContextCompat.getColor(context, R.color.md_theme_light_background)
+        }
+    }
 
+    private fun isDarkTheme(context: Context): Boolean {
+        return (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
 }

@@ -3,6 +3,7 @@ package ibn.rustum.arabistic.ui.words.arabic_for_russian.wordlist
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
@@ -63,7 +64,7 @@ class WordListFragment : Fragment() {
                 jsonData.forEach { item ->
                     val cardView = createWordCard(context, item)
                     linearLayout.addView(cardView)
-                    Log.d("WordListFragment", "Added card for word: ${item.singular_ru}")
+                    //Log.d("WordListFragment", "Added card for word: ${item.singular_ru}")
                 }
 
                 // Добавляем последнюю карточку
@@ -102,20 +103,15 @@ class WordListFragment : Fragment() {
 
         val dialogCard = createWordCard(context, word).apply {
             // Для карточки с singular
-            val singularCard = createSingleWordCard(context, word.singular_ar, word.singular_ru, "singular")
-            singularCard.setOnClickListener {
-                showPopupMenu(this, word.singular_ar, word.singular_ru, "singular")
+            val wordCard = createSingleWordCard(context, word.ar, word.ru)
+            wordCard.setOnClickListener {
+                showPopupMenu(this, word.ar, word.ru)
             }
 
-            // Для карточки с plural
-            val pluralCard = createSingleWordCard(context, word.plural_ar, word.plural_ru, "plural")
-            pluralCard.setOnClickListener {
-                showPopupMenu(this, word.plural_ar, word.plural_ru, "plural")
-            }
 
             // Добавляем обе карточки в основной layout
-            addView(singularCard)
-            addView(pluralCard)
+            addView(wordCard)
+
         }
 
         val container = FrameLayout(context).apply {
@@ -137,7 +133,7 @@ class WordListFragment : Fragment() {
     }
 
     // Модификация функции для отображения меню
-    private fun showPopupMenu(anchor: View, arabicWord: String, translatedWord: String, type: String) {
+    private fun showPopupMenu(anchor: View, arabicWord: String, translatedWord: String) {
         PopupMenu(requireContext(), anchor).apply {
             // Элемент меню "Поиск по слову (арабский)"
             menu.add("Поиск по слову (арабский)").setOnMenuItemClickListener {
@@ -229,11 +225,15 @@ class WordListFragment : Fragment() {
                 setMargins(16.dpToPx(), 8.dpToPx(), 16.dpToPx(), 8.dpToPx())
             }
 
+            addView(createSingleWordCard(context, word.ar, word.ru))
+
+            /*
             // Добавляем карточку для singular
             addView(createSingleWordCard(context, word.singular_ar, word.singular_ru, "singular"))
 
             // Добавляем карточку для plural
             addView(createSingleWordCard(context, word.plural_ar, word.plural_ru, "plural"))
+            */
         }
     }
 
@@ -242,7 +242,6 @@ class WordListFragment : Fragment() {
         context: Context,
         arabicWord: String,
         russianWord: String,
-        type: String
     ): MaterialCardView {
         return MaterialCardView(context).apply {
             layoutParams = LinearLayout.LayoutParams(
@@ -252,7 +251,8 @@ class WordListFragment : Fragment() {
                 setMargins(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 8.dpToPx())
             }
             radius = 12f
-            setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            //setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
+            setCardBackgroundColor(getCardBackgroundColor(context))
             elevation = 4f
             setPadding(16.dpToPx(), 16.dpToPx(), 16.dpToPx(), 16.dpToPx())
 
@@ -263,7 +263,7 @@ class WordListFragment : Fragment() {
                 addView(TextView(context).apply {
                     text = arabicWord
                     textSize = 28f
-                    setTextColor(ContextCompat.getColor(context, R.color.black))
+                    setTextColor(getTextColor(context))
                     textAlignment = View.TEXT_ALIGNMENT_CENTER
                     typeface = Typeface.DEFAULT_BOLD
                 })
@@ -271,7 +271,7 @@ class WordListFragment : Fragment() {
                 addView(TextView(context).apply {
                     text = russianWord
                     textSize = 18f
-                    setTextColor(ContextCompat.getColor(context, R.color.grey))
+                    setTextColor(getSubColor(context))
                     textAlignment = View.TEXT_ALIGNMENT_CENTER
                     setPadding(0, 8.dpToPx(), 0, 0)
                 })
@@ -280,7 +280,7 @@ class WordListFragment : Fragment() {
             // Передаем данные для singular или plural в onClickListener
             setOnClickListener {
                 // В зависимости от того, кликнули по singular или plural, передаем соответствующие данные
-                showPopupMenu(this, arabicWord, russianWord, type)
+                showPopupMenu(this, arabicWord, russianWord)
             }
         }
     }
@@ -343,10 +343,10 @@ class WordListFragment : Fragment() {
                     if (jsonData != null) {
                         jsonData.forEach { item ->
                             // Populate the sets with Arabic and translation words
-                            setOfArabicWords.add(item.singular_ar)
-                            setOfArabicWords.add(item.plural_ar)
-                            setOfTranslateWords.add(item.singular_ru)
-                            setOfTranslateWords.add(item.plural_ru)
+                            setOfArabicWords.add(item.ar)
+                            setOfArabicWords.add(item.ru)
+                            //setOfTranslateWords.add(item.singular_ru)
+                            //setOfTranslateWords.add(item.plural_ru)
                         }
 
                         // Convert sets to arrays for navigation arguments
@@ -356,10 +356,10 @@ class WordListFragment : Fragment() {
                         // Use SafeArgs to navigate and pass the arrays
                         val directions = WordListFragmentDirections
                             .actionWordListFragmentToCardModeFragment(
-                                arabicWords = "arabic_for_russian/cards/${String.format("%02d.json", lessonNumber + 1)}"
+                                arabicWords = "arabic_for_russian/wordlist/${String.format("%02d.json", lessonNumber + 1)}"
                             )
 
-                        Log.d("FILENAME", "arabic_for_russian/cards/${String.format("%02d.json", lessonNumber + 1)}")
+                        Log.d("FILENAME", "arabic_for_russian/wordlist/${String.format("%02d.json", lessonNumber + 1)}")
 
                         findNavController().navigate(directions)
                     } else {
@@ -372,12 +372,57 @@ class WordListFragment : Fragment() {
         }
     }
 
-    data class Word(
+    /*data class Word(
         val singular_ar: String,
         val plural_ar: String,
         val singular_ru: String,
         val plural_ru: String
+    )*/
+
+    data class Word(
+        val ar: String,
+        val ru: String
     )
+
+    private fun getCardBackgroundColor(context: Context): Int {
+        val isDarkTheme = isDarkTheme(context)
+        return if (isDarkTheme) {
+            // Используем цвет из темной темы
+            ContextCompat.getColor(context, R.color.md_theme_dark_surfaceVariant)
+        } else {
+            // Используем цвет из светлой темы
+            ContextCompat.getColor(context, R.color.md_theme_light_surfaceVariant)
+        }
+    }
+
+    private fun getTextColor(context: Context): Int {
+        val isDarkTheme = isDarkTheme(context)
+        return if (isDarkTheme) {
+            // Используем цвет текста из темной темы
+            ContextCompat.getColor(context, R.color.md_theme_dark_onSurface)
+        } else {
+            // Используем цвет текста из светлой темы
+            ContextCompat.getColor(context, R.color.md_theme_light_onSurface)
+        }
+    }
+
+    private fun getSubColor(context: Context): Int {
+        val isDarkTheme = isDarkTheme(context)
+        return if (isDarkTheme) {
+            // Используем цвет из темной темы
+            ContextCompat.getColor(context, R.color.md_theme_dark_outline)
+        } else {
+            // Используем цвет из светлой темы
+            ContextCompat.getColor(context, R.color.md_theme_light_outline)
+        }
+    }
+
+
+
+    private fun isDarkTheme(context: Context): Boolean {
+        val nightModeFlags = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+    }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
 }
