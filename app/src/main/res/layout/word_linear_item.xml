@@ -18,6 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:layout_marginRight="15dp"
             android:orientation="vertical">
 
             <!-- Arabic Word -->
@@ -42,17 +44,24 @@
                 android:layout_gravity="center"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:text="Russian Translation" />
+
         </LinearLayout>
 
-        <!-- Circular Checkbox for Selecting the Card -->
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_select"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:visibility="gone"
-            app:useMaterialThemeColors="true"
-            android:layout_marginEnd="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/listen"
+            android:layout_weight="0.01"
+            android:layout_marginRight="10dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            app:icon="@drawable/sound_on"
+            app:rippleColor="?attr/colorSecondary"
+            app:iconSize="30dp"
+            app:useMaterialThemeColors="true" />
 
     </LinearLayout>
+
+
 
 </androidx.cardview.widget.CardView>

@@ -13,6 +13,11 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import ibn.rustum.arabistic.R
 import ibn.rustum.arabistic.databinding.FragmentSettingsBinding
 import ibn.rustum.arabistic.util.SharedPreferencesUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsFragment : Fragment() {
     private var binding: FragmentSettingsBinding? = null
@@ -94,13 +99,16 @@ class SettingsFragment : Fragment() {
         }
 
         switchMaterial!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
-            DynamicColors.applyToActivitiesIfAvailable(
-                requireActivity().application
-            )
-            DynamicColors.applyToActivitiesIfAvailable(
-                requireActivity().application,
-                R.style.Theme_Arabistic
-            )
+            if (isChecked) {
+                DynamicColors.applyToActivitiesIfAvailable(
+                    requireActivity().application
+                )
+            } else {
+                DynamicColors.applyToActivitiesIfAvailable(
+                    requireActivity().application,
+                    R.style.Theme_Arabistic
+                )
+            }
             SharedPreferencesUtils.saveBoolean(requireContext(), "useDynamicColors", isChecked)
             requireActivity().recreate()
         }

@@ -3,7 +3,6 @@ package ibn.rustum.arabistic
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
-import android.window.SplashScreen
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.color.DynamicColors
 import ibn.rustum.arabistic.databinding.ActivityMainBinding
 import ibn.rustum.arabistic.util.SharedPreferencesUtils
 
@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainSwipeNavController: NavController
     lateinit var appAboutNavController: NavController
 
+    var flag: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,9 +38,19 @@ class MainActivity : AppCompatActivity() {
 
         App.instance?.setNightMode()
 
+        if (SharedPreferencesUtils.getBoolean(
+                this,
+                "useDynamicColors"
+            )
+        ) DynamicColors.applyToActivityIfAvailable(
+            this
+        )
+
+        if (SharedPreferencesUtils.getBoolean(this, "addFollowSystemIcon")) flag = true
+
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
-
 
         // Инициализируем NavController
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main)

@@ -32,42 +32,10 @@ class CardModeFragment : Fragment() {
     ): View {
         binding = FragmentCardModeBinding.inflate(layoutInflater, container, false)
 
-        // Retrieve the arguments as arrays
-        //val arabicWordsArray = arguments?.getStringArray("setOfArabicWords") ?: arrayOf()
-        //val translateWordsArray = arguments?.getStringArray("setOfTranslateWords") ?: arrayOf()
-
-        // Convert arrays back to sets if needed
-        //val setOfArabicWords = arabicWordsArray.toMutableSet()
-        //val setOfTranslateWords = translateWordsArray.toMutableSet()
-
         fileArabicWords = arguments?.getString("arabicWords") ?: ""
 
         binding.buttonTraining.setOnClickListener { showModeSelectionPopup(isTraining = true) }
         binding.buttonTest.setOnClickListener { showModeSelectionPopup(isTraining = false) }
-
-        // Set up toolbar menu
-        /*binding.toolbar.inflateMenu(R.menu.training_menu)
-        binding.toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_select_all -> {
-                    if (!isAllSelected) {
-                        selectAllCards()
-                        item.title = "Очистить все"
-                    } else {
-                        unselectAllCards()
-                        item.title = "Выбрать все"
-                    }
-                }
-                R.id.action_training -> {
-                    showModeSelectionPopup(isTraining = true)
-                }
-                R.id.action_test -> {
-                    showModeSelectionPopup(isTraining = false)
-                }
-                R.id.action_close -> requireActivity().onBackPressed()
-            }
-            true
-        }*/
 
         setupCardList()
         setupBottomButtons()
@@ -75,21 +43,7 @@ class CardModeFragment : Fragment() {
         return binding.root
     }
 
-    /*private fun updateCheckedWords(wordArabic: String, wordRussian: String, isChecked: Boolean) {
-        if (isChecked) {
-            checkedArabicWords.add(wordArabic)
-            checkedRussianWords.add(wordRussian)
-        } else {
-            checkedArabicWords.remove(wordArabic)
-            checkedRussianWords.remove(wordRussian)
-        }
-    }*/
-
     private fun showModeSelectionPopup(isTraining: Boolean) {
-        /*if (checkedArabicWords.size < 5 || checkedRussianWords.size < 5) {
-            Snackbar.make(binding.root, "Выберите не менее 5 слов", Snackbar.LENGTH_SHORT).show()
-            return
-        }*/
 
         val popupMenu = PopupMenu(requireContext(), if (isTraining) binding.buttonTraining else binding.buttonTest)
         popupMenu.menu.apply {
@@ -128,40 +82,6 @@ class CardModeFragment : Fragment() {
         findNavController().navigate(destination, bundle)
     }
 
-    /*private fun createSelectedWordsJsonFile(): String? {
-        return try {
-            // Создаем JSON-объект для хранения выделенных слов
-            val jsonObject = JSONObject().apply {
-                put("checkedArabicWords", JSONArray(checkedArabicWords))
-                put("checkedRussianWords", JSONArray(checkedRussianWords))
-            }
-
-            // Сохраняем JSON в файл
-            val jsonFile = File(requireContext().cacheDir, "selected_words.json")
-            jsonFile.writeText(jsonObject.toString())
-
-            jsonFile.absolutePath // Возвращаем путь к файлу
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }*/
-
-    /*private fun setupCardList() {
-        val arabicWordsArray = arguments?.getStringArray("setOfArabicWords") ?: arrayOf()
-        val translateWordsArray = arguments?.getStringArray("setOfTranslateWords") ?: arrayOf()
-        val items = arabicWordsArray.zip(translateWordsArray)
-
-        val cardAdapter = CardAdapter(items) /*{ arabicWord, translatedWord, isChecked ->
-            updateCheckedWords(arabicWord, translatedWord, isChecked)
-        }*/
-
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = cardAdapter
-        }
-    }*/
-
     private fun setupCardList() {
         // Получение пути к JSON-файлу из аргументов
         val fileArabicWordsPath = arguments?.getString("arabicWords") ?: ""
@@ -188,7 +108,7 @@ class CardModeFragment : Fragment() {
             }
 
             // Создание адаптера для RecyclerView
-            val cardAdapter = CardAdapter(items)
+            val cardAdapter = CardAdapter(items, requireContext())
 
             // Настройка RecyclerView
             binding.recyclerView.apply {

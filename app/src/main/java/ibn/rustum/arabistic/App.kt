@@ -18,10 +18,11 @@ class App : Application() {
 
         // Массив возможных режимов ночной темы
         val modes = intArrayOf(
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY,
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,  // Использовать системные настройки
             AppCompatDelegate.MODE_NIGHT_NO,            // Режим светлой темы
-            AppCompatDelegate.MODE_NIGHT_YES,           // Режим темной темы
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+            AppCompatDelegate.MODE_NIGHT_YES           // Режим темной темы
+
         )
 
         // Применяем выбранный режим

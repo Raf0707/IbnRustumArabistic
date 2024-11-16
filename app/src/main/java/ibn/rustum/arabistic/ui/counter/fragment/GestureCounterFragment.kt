@@ -38,6 +38,8 @@ class GestureCounterFragment : Fragment() {
 
     private val selectMode = "Circle counter"
 
+    private var isEditing = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -96,7 +98,7 @@ class GestureCounterFragment : Fragment() {
             saveCounterItem()
         }
 
-        binding.saveEdition.setOnClickListener { view ->
+        /*binding.saveEdition.setOnClickListener { view ->
             // saveText()
             binding.counterTarget.setText(
                 binding.counterTarget.text.toString()
@@ -180,7 +182,7 @@ class GestureCounterFragment : Fragment() {
                 binding.counterTarget,
                 InputMethodManager.SHOW_FORCED
             )
-        }
+        }*/
 
         /*
         binding.counterTarget.setText(
@@ -196,6 +198,87 @@ class GestureCounterFragment : Fragment() {
         binding.counterTitle.isFocusableInTouchMode = false
         binding.counterTitle.isEnabled = false
          */
+
+        binding.editCounter.setOnClickListener {
+            if (isEditing) {
+                // Сохраняем изменения
+                binding.counterTarget.setText(
+                    binding.counterTarget.text.toString().replace("[\\.\\-,\\s]+", "")
+                )
+
+                binding.counterTarget.isCursorVisible = false
+                binding.counterTarget.isFocusableInTouchMode = false
+                binding.counterTarget.isEnabled = false
+
+                binding.counterTitle.isCursorVisible = false
+                binding.counterTitle.isFocusableInTouchMode = false
+                binding.counterTitle.isEnabled = false
+
+                if (binding.counterTarget.text.toString().isEmpty()) {
+                    binding.counterTarget.setText(defaultValue)
+                    maxValue = binding.counterTarget.text.toString().toInt()
+
+                    Snackbar.make(
+                        requireView(),
+                        "Вы не ввели цель. По умолчанию: $defaultValue",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else {
+                    if (binding.counterTarget.text.toString().toInt() <= 0) {
+                        Snackbar.make(
+                            requireView(),
+                            "Введите число больше нуля!",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Snackbar.make(
+                            requireView(),
+                            "Цель установлена",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+
+                        maxValue = binding.counterTarget.text.toString().toInt()
+                    }
+                }
+
+                counterItem.title = binding.counterTitle.text.toString()
+                counterItem.target = binding.counterTarget.text.toString().toInt()
+                counterViewModel.update(counterItem)
+
+                // Меняем иконку на карандаш и переключаем флаг
+                binding.editCounter.setBackgroundResource(R.drawable.ic_baseline_edit_24) // Укажите ID ресурса карандаша
+                isEditing = false
+            } else {
+                // Включаем режим редактирования
+                binding.counterTarget.isCursorVisible = true
+                binding.counterTarget.isFocusableInTouchMode = true
+                binding.counterTarget.isEnabled = true
+
+                binding.counterTitle.isCursorVisible = true
+                binding.counterTitle.isFocusableInTouchMode = true
+                binding.counterTitle.isEnabled = true
+
+                binding.counterTarget.requestFocus()
+                binding.counterTarget.setSelection(binding.counterTarget.text!!.length)
+
+                requireActivity().window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                )
+                requireActivity().window.setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                )
+
+                val imm = requireActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm?.showSoftInput(binding.counterTarget, InputMethodManager.SHOW_FORCED)
+
+                // Меняем иконку на галочку и переключаем флаг
+                binding.editCounter
+                    .setBackgroundResource(R.drawable.ic_baseline_check_24) // Укажите ID ресурса галочки
+                isEditing = true
+            }
+        }
 
         binding.counterGestureView.setOnTouchListener(object : OnSwipeTouchListener(binding.counterGestureView.context) {
             @SuppressLint("MissingPermission")

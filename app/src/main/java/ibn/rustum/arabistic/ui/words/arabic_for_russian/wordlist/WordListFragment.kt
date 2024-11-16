@@ -2,11 +2,18 @@ package ibn.rustum.arabistic.ui.words.arabic_for_russian.wordlist
 
 
 import android.app.Dialog
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -30,13 +37,17 @@ import ibn.rustum.arabistic.util.CustomTabUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import java.io.File
+import java.util.Locale
 
 
 class WordListFragment : Fragment() {
 
-    private var overlay: FrameLayout? = null
-
     lateinit var lessonNumPublic: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -238,6 +249,7 @@ class WordListFragment : Fragment() {
     }
 
     // Функция для создания карточки и добавления клика на неё
+    // Функция для создания карточки и добавления клика на неё
     private fun createSingleWordCard(
         context: Context,
         arabicWord: String,
@@ -251,60 +263,135 @@ class WordListFragment : Fragment() {
                 setMargins(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 8.dpToPx())
             }
             radius = 12f
-            //setCardBackgroundColor(ContextCompat.getColor(context, R.color.white))
             setCardBackgroundColor(getCardBackgroundColor(context))
             elevation = 4f
             setPadding(16.dpToPx(), 16.dpToPx(), 16.dpToPx(), 16.dpToPx())
 
+            // Горизонтальный контейнер, который будет содержать вертикальный текст и кнопку озвучки
             addView(LinearLayout(context).apply {
-                orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                // Устанавливаем веса для элементов, чтобы они заняли правильные пропорции
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    weight = 1f // Этот контейнер будет занимать все доступное место
+                }
 
-                addView(TextView(context).apply {
-                    text = arabicWord
-                    textSize = 28f
-                    setTextColor(getTextColor(context))
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    typeface = Typeface.DEFAULT_BOLD
+                // Вертикальный контейнер для слова и перевода
+                addView(LinearLayout(context).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        weight = 1f // Этот контейнер будет занимать оставшуюся часть, но с меньшим приоритетом
+                    }
+
+                    addView(TextView(context).apply {
+                        text = arabicWord
+                        textSize = 28f
+                        setTextColor(getTextColor(context))
+                        textAlignment = View.TEXT_ALIGNMENT_CENTER
+                        typeface = Typeface.DEFAULT_BOLD
+                    })
+
+                    addView(TextView(context).apply {
+                        text = russianWord
+                        textSize = 18f
+                        setTextColor(getSubColor(context))
+                        textAlignment = View.TEXT_ALIGNMENT_CENTER
+                        setPadding(0, 8.dpToPx(), 0, 0)
+                    })
                 })
 
-                addView(TextView(context).apply {
-                    text = russianWord
-                    textSize = 18f
-                    setTextColor(getSubColor(context))
-                    textAlignment = View.TEXT_ALIGNMENT_CENTER
-                    setPadding(0, 8.dpToPx(), 0, 0)
+                // Кнопка динамика справа
+                addView(ImageButton(context).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(8.dpToPx(), 0, 8.dpToPx(), 0)
+                    }
+                    setImageResource(android.R.drawable.ic_btn_speak_now) // Иконка динамика
+                    background = null // Убираем фон кнопки
+                    setOnClickListener {
+                        //speakText(context, arabicWord) // Вызываем функцию озвучки
+                        playTextFromGoogleTranslate(context, arabicWord, "ar")
+                        Log.d("ОЗВУЧЕНО", arabicWord)
+                    }
                 })
             })
 
             // Передаем данные для singular или plural в onClickListener
             setOnClickListener {
-                // В зависимости от того, кликнули по singular или plural, передаем соответствующие данные
                 showPopupMenu(this, arabicWord, russianWord)
             }
         }
     }
 
-    private fun showOverlay(context: Context) {
-        if (overlay == null) {
-            overlay = FrameLayout(context).apply {
-                layoutParams = FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT
-                )
-                setBackgroundColor(Color.parseColor("#80000000"))
-                setOnClickListener { removeOverlay() }
+
+    fun playTextFromGoogleTranslate(context: Context, text: String, language: String) {
+        val url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encode(text)}&tl=$language&client=tw-ob"
+        val mediaPlayer = MediaPlayer()
+        mediaPlayer.setDataSource(url)
+        mediaPlayer.setOnPreparedListener {
+            it.start() // Воспроизводим аудио
+        }
+        mediaPlayer.setOnErrorListener { _, _, _ ->
+            Toast.makeText(context, "Ошибка воспроизведения", Toast.LENGTH_SHORT).show()
+            true
+        }
+        mediaPlayer.prepareAsync() // Асинхронная подготовка
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun downloadAndPlayAudio(context: Context, text: String, language: String) {
+        val url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encode(text)}&tl=$language&client=tw-ob"
+        val fileName = "tts_${text.hashCode()}.mp3"  // Создаем уникальное имя файла на основе хеша текста
+        val filePath = File(context.cacheDir, fileName)  // Путь к файлу в кеше
+
+        // Если файл уже существует в кеше, воспроизводим его
+        if (filePath.exists()) {
+            playAudio(context, filePath)
+        } else {
+            // Если файла нет, начинаем загрузку
+            val request = DownloadManager.Request(Uri.parse(url))
+            request.setDestinationUri(Uri.fromFile(filePath))  // Указываем место для сохранения файла
+
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadId = downloadManager.enqueue(request)
+
+            // Регистрируем BroadcastReceiver для получения уведомления о завершении загрузки
+            val receiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
+                        // После завершения загрузки воспроизводим файл
+                        playAudio(context, filePath)
+                        context.unregisterReceiver(this)  // Отписываемся от BroadcastReceiver
+                    }
+                }
             }
-            (view as? ViewGroup)?.findViewById<FrameLayout>(R.id.overlay_container)?.addView(overlay)
+
+            // Регистрируем BroadcastReceiver, который будет слушать завершение загрузки
+            context.registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+                Context.RECEIVER_EXPORTED)
         }
     }
 
-    private fun removeOverlay() {
-        overlay?.let {
-            (view as? ViewGroup)?.findViewById<FrameLayout>(R.id.overlay_container)?.removeView(it)
-            overlay = null
+    fun playAudio(context: Context, file: File) {
+        try {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(file.path)  // Указываем путь к локальному файлу
+            mediaPlayer.prepare()  // Подготовка
+            mediaPlayer.start()  // Воспроизведение
+        } catch (e: Exception) {
+            Toast.makeText(context, "Ошибка воспроизведения аудио: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun createFinalCard(context: Context): MaterialCardView {
         return MaterialCardView(context).apply {
@@ -425,4 +512,22 @@ class WordListFragment : Fragment() {
     }
 
     private fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
+
+    fun clearCache(context: Context) {
+        val cacheDir = context.cacheDir
+        val files = cacheDir.listFiles()
+        files?.forEach { file ->
+            // Удаляем файлы старше определенного времени (например, 7 дней)
+            if (System.currentTimeMillis() - file.lastModified() > 7 * 24 * 60 * 60 * 1000L) {
+                file.delete()
+            }
+        }
+    }
+
+
+    override fun onDestroy() {
+        clearCache(requireContext())
+        super.onDestroy()
+    }
 }
+

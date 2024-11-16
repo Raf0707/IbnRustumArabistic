@@ -42,6 +42,19 @@
                 android:gravity="center"
                 android:text="" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/listenBtn"
+                android:layout_weight="0.01"
+                android:layout_marginRight="10dp"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                app:icon="@drawable/sound_on"
+                app:rippleColor="?attr/colorSecondary"
+                app:iconSize="30dp"
+                app:useMaterialThemeColors="true" />
+
         </LinearLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial

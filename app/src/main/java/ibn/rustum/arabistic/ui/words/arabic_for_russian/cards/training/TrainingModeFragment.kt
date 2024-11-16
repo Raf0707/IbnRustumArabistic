@@ -1,5 +1,13 @@
 package ibn.rustum.arabistic.ui.words.arabic_for_russian.cards.training
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.media.MediaPlayer
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +16,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import com.google.android.material.snackbar.Snackbar
 import ibn.rustum.arabistic.R
 import ibn.rustum.arabistic.databinding.FragmentTrainingModeBinding
 import org.json.JSONArray
@@ -103,7 +114,33 @@ class TrainingModeFragment : Fragment() {
             // Здесь можно добавить альтернативное действие, если слово не найдено
         }
 
+        binding.listenBtn.setOnClickListener { v ->
+            context?.let { playTextFromGoogleTranslate(it, binding.textWord.text.toString(), language = when(trainingMode) {
+                "Ar-Ru" -> "ar"
+                "Ru-Ar" -> "ru"
+                else -> if (checkedArabicWords.contains(binding.textWord.text)) "ar" else "ru"
 
+            }) }
+        }
+
+        binding.listenBtn.setOnLongClickListener { v ->
+            if (binding.answerWord.visibility == View.VISIBLE) {
+                context?.let {
+                    playTextFromGoogleTranslate(
+                        it, binding.answerWord.text.toString(), language = when (trainingMode) {
+                            "Ar-Ru" -> "ar"
+                            "Ru-Ar" -> "ru"
+                            else -> if (checkedArabicWords.contains(binding.answerWord.text)) "ar" else "ru"
+
+                        }
+                    )
+                }
+            } else {
+                Snackbar.make(binding.root, "Правильный ответ не показан",
+                    Snackbar.LENGTH_SHORT).show()
+            }
+            true
+        }
 
         initWordsQueue()
         displayNextWord()
@@ -126,6 +163,65 @@ class TrainingModeFragment : Fragment() {
 
         // Перемешиваем список и добавляем в очередь
         wordsQueue.addAll(wordsList.shuffled())
+    }
+
+    fun playTextFromGoogleTranslate(context: Context, text: String, language: String) {
+        val url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encode(text)}&tl=$language&client=tw-ob"
+        val mediaPlayer = MediaPlayer()
+        mediaPlayer.setDataSource(url)
+        mediaPlayer.setOnPreparedListener {
+            it.start() // Воспроизводим аудио
+        }
+        mediaPlayer.setOnErrorListener { _, _, _ ->
+            Toast.makeText(context, "Ошибка воспроизведения", Toast.LENGTH_SHORT).show()
+            true
+        }
+        mediaPlayer.prepareAsync() // Асинхронная подготовка
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun downloadAndPlayAudio(context: Context, text: String, language: String) {
+        val url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encode(text)}&tl=$language&client=tw-ob"
+        val fileName = "tts_${text.hashCode()}.mp3"  // Создаем уникальное имя файла на основе хеша текста
+        val filePath = File(context.cacheDir, fileName)  // Путь к файлу в кеше
+
+        // Если файл уже существует в кеше, воспроизводим его
+        if (filePath.exists()) {
+            playAudio(context, filePath)
+        } else {
+            // Если файла нет, начинаем загрузку
+            val request = DownloadManager.Request(Uri.parse(url))
+            request.setDestinationUri(Uri.fromFile(filePath))  // Указываем место для сохранения файла
+
+            val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadId = downloadManager.enqueue(request)
+
+            // Регистрируем BroadcastReceiver для получения уведомления о завершении загрузки
+            val receiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1) == downloadId) {
+                        // После завершения загрузки воспроизводим файл
+                        playAudio(context, filePath)
+                        context.unregisterReceiver(this)  // Отписываемся от BroadcastReceiver
+                    }
+                }
+            }
+
+            // Регистрируем BroadcastReceiver, который будет слушать завершение загрузки
+            context.registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
+                Context.RECEIVER_EXPORTED)
+        }
+    }
+
+    fun playAudio(context: Context, file: File) {
+        try {
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.setDataSource(file.path)  // Указываем путь к локальному файлу
+            mediaPlayer.prepare()  // Подготовка
+            mediaPlayer.start()  // Воспроизведение
+        } catch (e: Exception) {
+            Toast.makeText(context, "Ошибка воспроизведения аудио: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
