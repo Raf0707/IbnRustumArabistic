@@ -21,7 +21,6 @@ import ibn.rustum.arabistic.databinding.FragmentGestureCounterBinding
 import ibn.rustum.arabistic.domain.models.CounterItem
 import ibn.rustum.arabistic.ui.counter.viewmodel.CounterViewModel
 import ibn.rustum.arabistic.util.OnSwipeTouchListener
-import java.text.MessageFormat
 
 class GestureCounterFragment : Fragment() {
 
@@ -35,8 +34,6 @@ class GestureCounterFragment : Fragment() {
 
     private val defaultValue = "10"
     private var maxValue: Int = 0
-
-    private val selectMode = "Circle counter"
 
     private var isEditing = false
 
@@ -97,107 +94,6 @@ class GestureCounterFragment : Fragment() {
             navController.navigate(R.id.action_gestureCounterFragment_to_tutorialFragment)
             saveCounterItem()
         }
-
-        /*binding.saveEdition.setOnClickListener { view ->
-            // saveText()
-            binding.counterTarget.setText(
-                binding.counterTarget.text.toString()
-                    .replace("[\\.\\-,\\s]+", "")
-            )
-
-            binding.counterTarget.isCursorVisible = false
-            binding.counterTarget.isFocusableInTouchMode = false
-            binding.counterTarget.isEnabled = false
-
-            binding.counterTitle.isCursorVisible = false
-            binding.counterTitle.isFocusableInTouchMode = false
-            binding.counterTitle.isEnabled = false
-
-            if (binding.counterTarget.text.toString().length == 0) {
-                binding.counterTarget.setText(defaultValue)
-                maxValue = binding.counterTarget.text.toString().toInt()
-
-                Snackbar.make(
-                    requireView(),
-                    StringBuilder().append("Вы не ввели цель. По умолчанию: ")
-                        .append(defaultValue),
-                    Snackbar.LENGTH_LONG
-                ).show()
-            } else {
-                if (binding.counterTarget.text.toString().toInt() <= 0) {
-                    Snackbar.make(
-                        requireView(), StringBuilder()
-                            .append("Введите число больше нуля!"),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                } else {
-                    Snackbar.make(
-                        requireView(),
-                        StringBuilder().append("Цель установлена"),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-
-                    maxValue = binding.counterTarget.text.toString().toInt()
-
-                }
-            }
-
-            counterItem.title = binding.counterTitle.text.toString()
-            counterItem.target = binding.counterTarget.text.toString().toInt()
-            counterViewModel.update(counterItem)
-        }
-
-        binding.editCounter.setOnClickListener { view ->
-            binding.counterTarget.isCursorVisible = true
-            binding.counterTarget.isFocusableInTouchMode = true
-            binding.counterTarget.isEnabled = true
-
-            binding.counterTitle.isCursorVisible = true
-            binding.counterTitle.isFocusableInTouchMode = true
-            binding.counterTitle.isEnabled = true
-
-            binding.counterTarget.requestFocus()
-
-            binding.counterTarget.setSelection(
-                binding.counterTarget.text!!.length
-            )
-
-            requireActivity().window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-            )
-
-            requireActivity().window.setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
-            )
-
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
-
-            val imm = requireActivity()
-                .getSystemService(
-                    Context
-                        .INPUT_METHOD_SERVICE
-                ) as InputMethodManager
-            imm?.showSoftInput(
-                binding.counterTarget,
-                InputMethodManager.SHOW_FORCED
-            )
-        }*/
-
-        /*
-        binding.counterTarget.setText(
-            binding.counterTarget.text.toString()
-                .replace("[\\.\\-,\\s]+", "")
-        )
-
-        binding.counterTarget.isCursorVisible = false
-        binding.counterTarget.isFocusableInTouchMode = false
-        binding.counterTarget.isEnabled = false
-
-        binding.counterTitle.isCursorVisible = false
-        binding.counterTitle.isFocusableInTouchMode = false
-        binding.counterTitle.isEnabled = false
-         */
 
         binding.editCounter.setOnClickListener {
             if (isEditing) {
@@ -305,7 +201,7 @@ class GestureCounterFragment : Fragment() {
             @SuppressLint("MissingPermission")
             override fun onLongClick() {
                 vibrator.vibrate(200)
-                if (counter != 0) onMaterialAlert()
+                if (counter != 0) onResetCounterAlert()
                 saveCounterItem()
             }
         })
@@ -324,7 +220,7 @@ class GestureCounterFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun onMaterialAlert() {
+    private fun onResetCounterAlert() {
         MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setTitle("Reset")
             .setMessage("Вы уверены, что хотите обновить счетчик?")

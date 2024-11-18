@@ -126,6 +126,7 @@ class TrainingModeFragment : Fragment() {
         binding.listenBtn.setOnLongClickListener { v ->
             if (binding.answerWord.visibility == View.VISIBLE) {
                 context?.let {
+                    //TODO при скрытом правильном ответе тока слово, а при visble - слово и перевод
                     playTextFromGoogleTranslate(
                         it, binding.answerWord.text.toString(), language = when (trainingMode) {
                             "Ar-Ru" -> "ar"

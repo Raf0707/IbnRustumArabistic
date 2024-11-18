@@ -64,26 +64,7 @@
                 android:text="Use Dynamic colors"
                 android:textSize="18sp"/>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/addFollowSystemIconOnMain"
-                style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
-                android:enabled="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:text="FollowSystem icon on Main Screen"
-                android:textSize="18sp"/>
-
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/backFromSettingsFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="400dp"
-        android:text="back">
-    </com.google.android.material.button.MaterialButton>
 
 </LinearLayout>

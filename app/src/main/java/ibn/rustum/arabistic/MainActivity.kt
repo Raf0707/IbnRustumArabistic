@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -107,15 +108,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        /*//if (id == R.id.settings) {
-        val navController = findNavController(this, R.id.nav_host_fragment_content_main)
-        val currentDestination = navController.currentDestination
-        if (currentDestination != null && currentDestination.id == R.id.settingsFragment) {
+        if (id == R.id.settingsFragment2) {
+            val navController = findNavController(this, R.id.nav_host_fragment_content_main)
+            val currentDestination = navController.currentDestination
+            if (currentDestination != null && currentDestination.id == R.id.settingsFragment) {
+                return true
+            }
+            navController.navigate<Any>(R.id.settingsFragment2)
             return true
         }
-        navController.navigate<Any>(R.id.settingsFragment2)
-        //return true
-        //}*/
 
         return super.onOptionsItemSelected(item)
     }

@@ -39,8 +39,6 @@ class SettingsFragment : Fragment() {
         binding!!.dynamicColorsSwitch.isEnabled = DynamicColors.isDynamicColorAvailable()
         switchMaterial!!.isChecked =
             SharedPreferencesUtils.getBoolean(requireContext(), "useDynamicColors")
-        binding!!.addFollowSystemIconOnMain.isChecked =
-            SharedPreferencesUtils.getBoolean(requireContext(), "addFollowSystemIcon")
 
         //int[] setNightModeDescription = {R.string.auto_theme_description, R.string.system_theme_description, R.string.light_theme_description, R.string.night_theme_description};
         //binding.themeDescription.setText(setNightModeDescription[SharedPreferencesUtils.getInteger(requireContext(), "nightMode", 1)]);
@@ -94,10 +92,6 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        binding!!.addFollowSystemIconOnMain.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
-            SharedPreferencesUtils.saveBoolean(requireContext(), "addFollowSystemIcon", isChecked)
-        }
-
         switchMaterial!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 DynamicColors.applyToActivitiesIfAvailable(
@@ -113,9 +107,6 @@ class SettingsFragment : Fragment() {
             requireActivity().recreate()
         }
 
-
-
-        binding!!.backFromSettingsFragment.setOnClickListener { v: View? -> }
     }
 
     override fun onDestroyView() {

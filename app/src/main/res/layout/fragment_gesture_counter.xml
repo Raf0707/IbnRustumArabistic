@@ -9,23 +9,6 @@
     android:layout_marginTop="20dp"
     tools:context=".ui.counter.fragment.GestureCounterFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/changeCounterModeBtn"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:cornerRadius="28dp"
-        app:icon="@drawable/ic_baseline_published_with_changes_24"
-        app:iconGravity="textEnd"
-        app:iconSize="50dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
-
     <Button
         android:id="@+id/openSettingsBtn"
         android:layout_width="50dp"
